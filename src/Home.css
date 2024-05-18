@@ -15,9 +15,9 @@
 
 .left-nav span {
   color: white;
-  margin-left: 10px;
+  margin-left: 20px;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 30px;
   margin-bottom: 10px;
 }
 .left-nav{
@@ -29,12 +29,12 @@
 
 
 .navbar-logo {
-  height: 50px; /* Adjust size as needed */
-  width: 50px;
+  height: 70px; /* Adjust size as needed */
+  width: 70px;
   border-radius: 50%;
   border: 2px solid black;
   margin-bottom: 5px;
-  margin-left: 10px;
+  margin-left: 20px;
   margin-top: 5px;
 }
 .right-nav {

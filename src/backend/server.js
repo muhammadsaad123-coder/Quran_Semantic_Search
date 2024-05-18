@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { spawn } = require('child_process');
+const path = require('path');
 
 const app = express();
 app.use(express.json());
@@ -15,7 +16,7 @@ app.post('/search', (req, res) => {
   }
 
   // Run the Python script
-  const pythonProcess = spawn('python3', ['search_script.py', query, searchType]);
+  const pythonProcess = spawn('python', [path.join(__dirname, 'search_script.py'), query, searchType]);
 
   let data = '';
 
