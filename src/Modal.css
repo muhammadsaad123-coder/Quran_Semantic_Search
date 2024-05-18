@@ -1,0 +1,151 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url('background2.png'); /* Add your background image path here */
+  background-size: cover; /* Ensure the background image covers the entire screen */
+  background-position: center; /* Center the background image */
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  background: rgba(255, 255, 255, 0.9); /* Add a semi-transparent white background for better readability */
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Your existing styles */
+.modal-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid black;
+  margin-top: 30px;
+}
+
+.modal-input {
+  width: calc(100% - 40px);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007BFF;
+  color: white;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.modal-button:hover {
+  background-color: #0056b3;
+}
+
+.logintext {
+  color: #136592;
+}
+
+.text {
+  color: black;
+  margin-right: 300px;
+}
+
+/* Style for the signup prompt */
+.forgot-password,
+.link-button {
+  color: #0077ff;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
+
+/* Divider text style */
+.modal-content p {
+  text-align: center;
+  margin: 20px 0;
+  color: #666;
+  font-size: 14px;
+}
+
+/* General styles for social buttons */
+.social-button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-logo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+/* Specific styles for Facebook and Google buttons */
+.modal-button.social-button.facebook {
+  background-color: #3b5998; /* Facebook Blue */
+}
+
+.modal-button.social-button.google {
+  background-color: #db4437; /* Google Red */
+}
+
+.social-button:hover {
+  opacity: 0.9;
+}
+
+.modal-button.social-button img {
+  filter: none
+}
+
+/* Adjustments for responsiveness */
+@media (max-width: 600px) {
+  .social-button {
+    padding: 8px;
+    font-size: 14px;
+  }
+}
+
+/* Modal.css - Add this at the bottom of your existing styles */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #aaa; /* Light gray for the button */
+  font-size: 24px; /* Larger font size for visibility */
+  cursor: pointer;
+  text-decoration: none; /* Remove underline from link */
+}
+
+.close-button:hover {
+  color: #f00; /* Red color on hover for emphasis */
+}

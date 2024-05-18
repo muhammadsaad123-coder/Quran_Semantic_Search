@@ -1,0 +1,148 @@
+.home {
+  background-size: cover; /* Cover the entire area of the div */
+  background-position: center; /* Center the background image */
+  min-height: 100vh; /* Make sure it covers the full viewport height */
+  color: white; /* Ensuring text is visible on potentially dark backgrounds */
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for navbar */
+  /* padding: 10px 10px; */
+  align-items: center;
+}
+
+.left-nav span {
+  color: white;
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.left-nav{
+  display: flex; /* Make it a flex container */
+  align-items: center; /* Align items vertically in the center */
+ 
+  margin-top: 5px;
+} 
+
+
+.navbar-logo {
+  height: 50px; /* Adjust size as needed */
+  width: 50px;
+  border-radius: 50%;
+  border: 2px solid black;
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+.right-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+.right-nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  padding: 0 15px;
+  transition: color 0.3s;
+}
+
+.right-nav a:hover, .right-nav a.active {
+  text-decoration: underline;
+  color: lightskyblue;  /* Bright yellow for active and hover state */
+}
+
+.right-nav button {
+  color: black;
+  background-color: lightblue;
+  border: none;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 10px;
+}
+
+.right-nav button:hover {
+  background-color: white;
+  color: #0056B3;
+}
+
+
+.search-section {
+  position: relative;
+  padding-top: 20px;
+  text-align: center; /* Centering all elements in search section */
+  /* margin-top: 100px; */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.logo2 {
+  width: 150px; /* Adjust to your preference */
+  height: 150px; /* Same as width for a perfect circle */
+  border-radius: 50%; /* Makes the image circular */
+  display: block; /* For margin auto to work */
+  margin: 20px auto; /* Center horizontally */
+  border: 5px solid black;
+  animation: fadeIn 3s ease-in-out forwards; /* Play once and maintain the last frame */
+  margin-bottom: 70px;
+}
+
+
+.search-bar {
+  width: 50%;
+  padding: 10px;
+  margin: 10px 0; /* Space around search bar */
+}
+
+
+.dropdown {
+  margin: 10px;
+  padding: 10px;
+  width: 150px;
+  background: white; /* Background to ensure readability */
+  color: black; /* Text color */
+}
+
+
+.button {
+  width: 150px;
+  margin-left: 45%;
+  margin-top: 3%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  background-color: white;
+  color: black;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  gap: 5px;
+  transition: background-color 0.3s ease; /* Add transition for smooth hover effect */
+}
+
+.button:hover {
+  background-color: #136592 /* Light blue color */
+}
+
+
+.search-icon {
+  width: 16px;  /* Width of the icon */
+  height: 16px; /* Height of the icon */
+}
+
