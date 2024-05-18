@@ -123,6 +123,7 @@
   width: 150px;
   margin-left: 45%;
   margin-top: 3%;
+  margin-bottom: 3%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -137,12 +138,37 @@
 }
 
 .button:hover {
-  background-color: #136592 /* Light blue color */
+  background-color: lightblue /* Light blue color */
 }
 
 
 .search-icon {
   width: 16px;  /* Width of the icon */
   height: 16px; /* Height of the icon */
+}
+
+/* Styling for each result item */
+.results-section > div {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 15px;
+  background-color: #fafafa; /* Slightly darker background for each result */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* Styling for headings in results */
+.results-section h3 {
+  margin: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Styling for paragraph text in results */
+.results-section p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
 }
 

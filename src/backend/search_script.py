@@ -4,8 +4,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import json
 
+# Specify the path to the Excel file
+excel_path = 'D:/fyp/fyp project/quran-semantic-search/Final_year_project/src/backend/100 lines.xlsx'
+
 # Load data from the specified path
-df = pd.read_excel('/src/backend/100 lines.xlsx')
+df = pd.read_excel(excel_path)
 
 # Initialize TfidfVectorizer
 vectorizer = TfidfVectorizer()
