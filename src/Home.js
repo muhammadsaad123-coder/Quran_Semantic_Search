@@ -124,7 +124,7 @@ function Home() {
         {results.map((result, index) => (
           <div key={index}>
             <h3>Most similar document {index + 1}</h3>
-            <p>SrNo: {result.srNo}</p>
+            <p>VerseNo: {result.srNo}</p>
             <p>Translation: {result.translation}</p>
             <p>Similarity Score: {result.similarityScore}</p>
           </div>
