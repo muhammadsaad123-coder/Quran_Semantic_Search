@@ -1,35 +1,70 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Modal.css';
 import searchLogo from './searchlogo.png';
 import google from './google.jpg';
 import facebookLogo from './fb.jpg';
 
-
 function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', data.token);
+        navigate('/home');
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <div className="modal">
       <div className="modal-content">
-      <Link to="/home" className="close-button">&times;</Link>
         <img src={searchLogo} alt="Logo" className="modal-logo"/>
         <h1 className='logintext'>Login</h1>
-        <form onSubmit={event => {
-          event.preventDefault();
-          console.log('Login submitted');
-        }}>
-          <input type="email" placeholder="Enter your email" required className="modal-input"/>
-          <input type="password" placeholder="Enter your password" required className="modal-input"/>
+        <form onSubmit={handleLogin}>
+          <input
+            type="email"
+            placeholder="Enter your email"
+            required
+            className="modal-input"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Enter your password"
+            required
+            className="modal-input"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button type="submit" className="modal-button">Login</button>
         </form>
         
         <p>Don't have an account? <Link to="/signup" className="link-button">Signup</Link></p>
 
         <p>— or —</p>
-        <button className="modal-button social-button">
-        <Link to="/Home" className="link-button">Continue as guest !</Link>
-          
-          
-        </button>
+
+        <Link to="/home" className="modal-button guest-button">Continue as Guest</Link>
+       
         <button className="modal-button social-button">
           <img src={facebookLogo} alt="Facebook logo" className="social-logo" />
           Login with Facebook

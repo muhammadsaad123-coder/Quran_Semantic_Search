@@ -12,7 +12,7 @@ function Home() {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/search', {
+      const response = await axios.post('http://localhost:4000/search', {
         query,
         searchType,
       });

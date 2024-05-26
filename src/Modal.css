@@ -149,3 +149,22 @@
 .close-button:hover {
   color: #f00; /* Red color on hover for emphasis */
 }
+
+.modal-button.guest-button {
+  display: block;
+  width: 95%;
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #0077ff;
+  border: 1px solid #ccc;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.modal-button.guest-button:hover {
+  background-color: #3b5998;
+}
+
