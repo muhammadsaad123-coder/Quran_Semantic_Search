@@ -149,9 +149,10 @@
 
 /* Styling for each result item */
 .results-section > div {
-  width: 100%;
+  width: 60%;
   margin-bottom: 15px;
-  padding: 15px;
+  margin-left: 18%;
+  padding: 20px;
   background-color: #fafafa; /* Slightly darker background for each result */
   border: 1px solid #ddd;
   border-radius: 5px;

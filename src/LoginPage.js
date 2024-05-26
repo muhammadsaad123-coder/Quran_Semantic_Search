@@ -26,6 +26,11 @@ function LoginPage() {
 
         <p>— or —</p>
         <button className="modal-button social-button">
+        <Link to="/Home" className="link-button">Continue as guest !</Link>
+          
+          
+        </button>
+        <button className="modal-button social-button">
           <img src={facebookLogo} alt="Facebook logo" className="social-logo" />
           Login with Facebook
         </button>

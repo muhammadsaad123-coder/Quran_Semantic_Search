@@ -12,7 +12,7 @@ function Splash() {
       setProgress(oldProgress => {
         if (oldProgress === 100) {
           clearInterval(interval);
-          navigate('/home'); // Redirect when progress reaches 100%
+          navigate('/Login'); // Redirect when progress reaches 100%
           return 100;
         } else {
           return Math.min(oldProgress + 33, 100); // Increment progress
