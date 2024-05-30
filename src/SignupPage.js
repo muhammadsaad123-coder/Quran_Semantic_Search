@@ -32,8 +32,8 @@ function SignupPage() {
       const data = await response.json();
 
       if (response.ok) {
-        alert('Registration successful! Please log in.');
-        navigate('/login');
+        alert('Registration successful! ');
+        navigate('/Home');
       } else {
         alert(data.message);
       }
