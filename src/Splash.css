@@ -45,15 +45,15 @@
 
 
 .animated-text {
-  font-size: 40px; /* Increased font size for better visibility */
+  font-size: 50px; /* Increased font size for better visibility */
   font-weight: bolder;
   color: white; /* Set text color to white */
   font-family: 'Lobster', cursive;
   position: relative;
   animation: pulse 2s ease-in-out;
   text-shadow: 1px 1px 1px  black;
-  -webkit-text-fill-color: #136592; /* Set text fill color to transparent */
-  -webkit-text-stroke: 1px  black; /* Add black border to text */
+  -webkit-text-fill-color: #136592; 
+  -webkit-text-stroke: 1px  black; 
 }
 
 
