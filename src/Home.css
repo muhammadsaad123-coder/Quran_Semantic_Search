@@ -4,6 +4,7 @@
   min-height: 100vh; /* Make sure it covers the full viewport height */
   color: white; /* Ensuring text is visible on potentially dark backgrounds */
   overflow: hidden;
+  /* background-color: #376830; */
 }
 
 .navbar {
