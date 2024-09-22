@@ -158,6 +158,7 @@
   background-color: #fafafa; /* Slightly darker background for each result */
   border: 1px solid #ddd;
   border-radius: 5px;
+  
 }
 
 /* Styling for headings in results */
@@ -174,4 +175,83 @@
   font-size: 16px;
   color: #555;
 }
+/* Spinner (Loader) */
+.loading-spinner {
+  border: 6px solid #f3f3f3; /* Light grey */
+  border-top: 6px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 40px;  /* Smaller width */
+  height: 40px; /* Smaller height */
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+/* Animation for spinner */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Loading Text */
+.loading-text {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px; /* You can adjust this size */
+  color:white ;  /* Blue color to match spinner */
+  
+}
+
+/* Error Message Styling */
+/* Error Message Styling */
+/* Flexbox for centering */
+/* Error Message Styling */
+/* Error Message Styling */
+.error-message {
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid #ff4d4d;
+  background-color: #ffe6e6;
+  padding: 15px;
+  border-radius: 8px;
+  width: 90%;
+  max-width: 700px;
+
+  /* Center horizontally and vertically with downward spacing */
+  margin: 0 auto; /* Center horizontally */
+  position: absolute; /* Positioning for vertical centering */
+  top: 85%; /* Adjust this value to move the message lower */
+  left: 50%; /* Horizontally align middle */
+  transform: translate(-50%, -50%); /* Adjust for element size to truly center */
+
+  z-index: 999;
+}
+
+
+/* No Results Message Styling */
+/* Flexbox for centering */
+/* No Results Message Styling */
+.no-results-message {
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  border: 2px solid #ff4d4d;
+  background-color: #ffe6e6;
+  padding: 10px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+
+  /* Center horizontally and vertically */
+  position: absolute; /* Positioning for vertical centering */
+  top: 50%; /* Move the message 50% from the top */
+  left: 50%; /* Move the message 50% from the left */
+  transform: translate(-50%, -50%); /* Adjust the position to account for the element's size */
+
+  z-index: 999;
+}
+
+
 

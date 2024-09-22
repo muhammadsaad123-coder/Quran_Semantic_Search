@@ -1,60 +1,99 @@
-import { useState } from 'react';
-import axios from 'axios';
-import { NavLink } from 'react-router-dom';
-import './Home.css';
-import background from './background2.png';
-import searchLogo from './searchlogo.png';
+import { useState } from "react";
+import axios from "axios";
+import { NavLink } from "react-router-dom";
+import "./Home.css";
+import background from "./background2.png";
+import searchLogo from "./searchlogo.png";
 
 function Home() {
-  const [query, setQuery] = useState('');
-  const [searchType, setSearchType] = useState('keyword');
-  const [ngramType, setNgramType] = useState('unigram');
-  const [showNgramDropdown, setShowNgramDropdown] = useState(true);
-  const [results, setResults] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(''); // Track search query
+  const [query, setQuery] = useState("");
+  const [searchType, setSearchType] = useState("keyword"); // Default to keyword search
+  const [ngramType, setNgramType] = useState("unigram"); // Default to unigram
+  const [showNgramDropdown, setShowNgramDropdown] = useState(true); // Show or hide n-gram options
+  const [results, setResults] = useState([]); // Store search results
+  const [searchQuery, setSearchQuery] = useState(""); // Track the search query
+  const [error, setError] = useState(null); // Error handling
+  const [loading, setLoading] = useState(false); // Loading state
 
   const handleSearch = async () => {
+    setLoading(true); // Show loading spinner
+  
+    // Set the search query immediately when the search starts
+    setSearchQuery(query); // Update searchQuery with the current input before the search
+  
     try {
-      const response = await axios.post('http://localhost:4000/search', {
+      console.log("Sending search request to backend...");
+      const response = await axios.post("http://localhost:4000/search", {
         query,
         searchType,
-        ngramType,
+        ngramType: searchType === "keyword" ? ngramType : "", // Send ngramType only for keyword search
       });
-      setResults(response.data);
-      setSearchQuery(query); // Store the search query
-      setQuery(''); // Clear the search bar
+  
+      console.log("Search response received:", response.data);
+  
+      if (response.data.error) {
+        setError(response.data.error); // Show backend error
+        setResults([]); // Clear previous results
+      } else {
+        setResults(response.data); // Set search results
+        setError(null); // Clear any previous error
+      }
+      setQuery(""); // Clear the search bar
     } catch (error) {
-      console.error('Error fetching search results:', error);
+      console.error("Error fetching search results:", error);
+      setError(
+        "Failed to retrieve search results. Please check your backend server or query input."
+      );
+      setResults([]); // Clear previous results
+    } finally {
+      setLoading(false); // Hide loading spinner
     }
   };
+  
 
+  // Handle search type change (keyword/semantic)
   const handleSearchTypeChange = (e) => {
     const selectedSearchType = e.target.value;
     setSearchType(selectedSearchType);
 
-    if (selectedSearchType === 'keyword') {
-      setShowNgramDropdown(true);
+    // Show n-gram dropdown only if keyword search is selected
+    if (selectedSearchType === "keyword") {
+      setShowNgramDropdown(true); // Show n-gram options for keyword search
     } else {
-      setShowNgramDropdown(false);
-      setNgramType('');
+      setShowNgramDropdown(false); // Hide n-gram options for semantic search
+      setNgramType(""); // Clear n-gram type for semantic search
     }
   };
 
-  // Helper function to highlight and bold search term(s) in the text
-  const highlightText = (text, query) => {
-    if (!query.trim()) return text;
+  // Handle Enter key press event in the search bar
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch(); // Trigger search when Enter is pressed
+    }
+  };
 
-    // Split the query into words
+  // Helper function to highlight search term(s) in the text
+  const highlightText = (text, query) => {
+    if (
+      !text ||
+      !query ||
+      typeof text !== "string" ||
+      typeof query !== "string"
+    ) {
+      return text; // Return the original text if not a valid string
+    }
+
     const terms = query.split(/\s+/);
     let highlightedText = text;
 
-    // Highlight each term
-    terms.forEach(term => {
-      const regex = new RegExp(`(${term})`, 'gi');
-      highlightedText = highlightedText.replace(regex, '<span style="background-color: yellow; font-weight: bold;">$1</span>');
+    terms.forEach((term) => {
+      const regex = new RegExp(`(${term})`, "gi"); // Case-insensitive matching
+      highlightedText = highlightedText.replace(
+        regex,
+        '<span style="background-color: yellow; font-weight: bold;">$1</span>'
+      );
     });
 
-    // Use dangerouslySetInnerHTML to render HTML
     return <span dangerouslySetInnerHTML={{ __html: highlightedText }} />;
   };
 
@@ -66,31 +105,52 @@ function Home() {
           <span className="left-nav">Quran Semantic Search</span>
         </div>
         <div className="right-nav">
-          <NavLink to="/home" activeClassName="active" exact>Home</NavLink>
-          <NavLink to="/about" activeClassName="active">About</NavLink>
-          <NavLink to="/login"><button>Login</button></NavLink>
-          <NavLink to="/signup"><button>Signup</button></NavLink>
+          <NavLink to="/home" activeClassName="active">
+            Home
+          </NavLink>
+          <NavLink to="/about" activeClassName="active">
+            About
+          </NavLink>
+          <NavLink to="/login">
+            <button>Login</button>
+          </NavLink>
+          <NavLink to="/signup">
+            <button>Signup</button>
+          </NavLink>
         </div>
       </nav>
 
       <div className="search-section">
-        <img src={searchLogo} alt="Quran Semantic Search Logo" className="logo2" />
-        
+        <img
+          src={searchLogo}
+          alt="Quran Semantic Search Logo"
+          className="logo2"
+        />
+
         <input
           type="text"
           placeholder="Search Quran..."
           className="search-bar"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          onKeyPress={handleKeyPress}
         />
-        
-        <select className="dropdown" onChange={handleSearchTypeChange} value={searchType}>
+
+        <select
+          className="dropdown"
+          onChange={handleSearchTypeChange}
+          value={searchType}
+        >
           <option value="keyword">Keyword</option>
           <option value="semantic">Semantic Search</option>
         </select>
 
         {showNgramDropdown && (
-          <select className="dropdown" onChange={(e) => setNgramType(e.target.value)} value={ngramType}>
+          <select
+            className="dropdown"
+            onChange={(e) => setNgramType(e.target.value)}
+            value={ngramType}
+          >
             <option value="unigram">Unigram</option>
             <option value="bigram">Bigram</option>
           </select>
@@ -98,29 +158,60 @@ function Home() {
 
         <div>
           <button className="button" onClick={handleSearch}>
-            Search ...
-            <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            Search
+            <svg
+              className="search-icon"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              viewBox="0 0 16 16"
+            >
               <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
             </svg>
           </button>
         </div>
-      </div>
 
-      <div className="results-section">
-        {results.map((result, index) => (
-          <div key={index}>
-            <h3>Most similar document {index + 1}</h3>
-            <p>VerseNo: {result.srNo}</p>
-            <p>
-              Translation: {highlightText(result.translation, searchQuery)}
-            </p>
-            <p>
-              Original Arabic Text: {highlightText(result.originalArabicText, searchQuery)}
-            </p> 
-            <p>Similarity Score: {result.similarityScore}</p>
+        {/* Loader and Loading Text */}
+        {loading && (
+          <div>
+            <div className="loading-spinner"></div>
+            <div className="loading-text">Loading...</div>
           </div>
-        ))}
+        )}
       </div>
+      <div className="results-section">
+  {error ? (
+    <p className="error-message">{error}</p>
+  ) : (
+    !loading &&
+    searchQuery &&
+    results.length === 0 && (
+      <p className="no-results-message">
+        No results found for "{searchQuery}".
+      </p>
+    )
+  )}
+  {/* Show results if there are any */}
+  {results.length > 0 &&
+    results.map((result, index) => (
+      <div key={index}>
+        <h3>Most similar verse {index + 1}</h3>
+        <p>Verse No: {result.SrNo}</p>
+        <p>
+          Translation:{" "}
+          {highlightText(result.Translation || "", searchQuery)}
+        </p>
+        <p>
+          Original Arabic Text:{" "}
+          {highlightText(result["Original Arabic Text"] || "", searchQuery)}
+        </p>
+        <p>Similarity Score: {result["Similarity Score"]}</p>
+      </div>
+    ))}
+</div>
+
+
     </div>
   );
 }

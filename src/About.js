@@ -29,7 +29,7 @@ const About = () => {
       <div className="section">
         <h2>Unigram and Bigram Analysis</h2>
         <p>This feature analyzes the Quranic text at the level of individual words (unigrams) and pairs of words (bigrams) to enhance search accuracy and relevancy.</p>
-        <p><strong>Example:</strong> When a user searches for "right path," the system recognizes "right" and "path" as a significant combination (bigram) and may return Surah Al-Fatiha, Verse 6: "Guide us to the straight path."</p>
+        <p><strong>Example:</strong> When a user searches for "right path," the system recognizes "right" and "path" as a significant combination (bigram) and may return Surah Al-Fatiha, Verse 6: "Guide us to the straight path." Eg:reject faith</p>
         <p>This analytical approach is crucial for understanding and retrieving the precise meanings and teachings of the Quran.</p>
       </div>
 
