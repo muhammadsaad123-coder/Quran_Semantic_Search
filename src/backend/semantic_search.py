@@ -1,77 +1,121 @@
+# Step 1: Install necessary libraries
 import pandas as pd
+import numpy as np
+import nltk
+from nltk.corpus import wordnet as wn
+from gensim.models import Word2Vec
 from sklearn.metrics.pairwise import cosine_similarity
-from transformers import BertTokenizer, BertModel
-import torch
 import sys
 import json
 
-# Load the pre-trained BERT model and tokenizer
-print("Loading BERT model and tokenizer...", file=sys.stderr)
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-model = BertModel.from_pretrained('bert-base-uncased')
+# Download necessary NLTK data (run this once)
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 
-# Load the dataset
-dataset_path = 'D:/fyp/fyp project/quran-semantic-search/Final_year_project/src/backend/Dataset-Semantic.xlsx'
+# Step 2: Load the Quranic dataset
+dataset_path = 'Dataset-Verse-by-Verse.xlsx'  # Replace with your correct dataset path
 try:
-    print(f"Loading dataset from {dataset_path}...", file=sys.stderr)
     df = pd.read_excel(dataset_path)
-    print(f"Dataset loaded. Number of records: {len(df)}", file=sys.stderr)
-except Exception as e:
-    print(f"Error loading dataset: {str(e)}", file=sys.stderr)
+    print(f"Loaded dataset with {len(df)} verses", file=sys.stderr)
+except FileNotFoundError:
+    print(json.dumps({"error": "Dataset not found. Please check the file path."}))
     sys.exit(1)
 
-def embed_text(text):
-    """Generate embeddings for the input text using BERT."""
-    try:
-        print(f"Embedding text: {text[:50]}...", file=sys.stderr)  # Log to stderr
-        inputs = tokenizer(text, return_tensors='pt', truncation=True, padding=True, max_length=128)
-        with torch.no_grad():
-            outputs = model(**inputs)
-        return outputs.last_hidden_state.mean(dim=1).numpy()
-    except Exception as e:
-        print(f"Error embedding text: {str(e)}", file=sys.stderr)
-        return None
+# Data cleaning: Drop rows with missing or invalid 'SrNo'
+df = df.dropna(subset=['SrNo', 'EnglishTranslation', 'OrignalArabicText'])
+df['SrNo'] = df['SrNo'].astype(int, errors='ignore')
 
-def search(query):
-    """Perform the semantic search by embedding the query and calculating cosine similarity."""
-    print(f"Searching for query: {query}", file=sys.stderr)
-    query_embedding = embed_text(query)
+# Step 3: Prepare text data for Word2Vec training
+df['tokenized'] = df['EnglishTranslation'].apply(lambda x: x.lower().split())
+
+# Step 4: Train a Word2Vec model on the dataset
+model = Word2Vec(sentences=df['tokenized'], vector_size=100, window=5, min_count=1, workers=4)
+print("Word2Vec model trained.", file=sys.stderr)
+
+# Step 5: Stopwords list (add more as needed)
+stopwords = set(["of", "and", "the", "in", "on", "with", "a", "an", "is", "it", "for"])
+
+# Function to expand the query using WordNet synonyms
+def get_wordnet_synonyms(query, max_synonyms=5):
+    if not query.strip():
+        return {"error": "Empty query provided. Please enter a valid query."}
+
+    words = query.lower().split()
+    expanded_query = set()
+
+    for word in words:
+        if word in stopwords:  # Skip stopwords
+            expanded_query.add(word)
+            continue
+
+        synsets = wn.synsets(word)
+        if not synsets:
+            return {"error": f"No WordNet synonyms found for the word: '{word}'."}
+
+        for synset in synsets:
+            for lemma in synset.lemmas()[:max_synonyms]:
+                synonym = lemma.name().lower()
+                if synonym.isalpha() and synonym not in expanded_query:
+                    expanded_query.add(synonym)
+
+    return expanded_query
+
+# Step 6: Get embeddings for the expanded query and normalize them
+def get_average_embedding(words, model):
+    valid_words = [word for word in words if word in model.wv]
+    if valid_words:
+        embedding = np.mean([model.wv[word] for word in valid_words], axis=0)
+        return embedding / np.linalg.norm(embedding)
+    else:
+        return None  # Return None if no valid words are found
+
+# Step 7: Define the search function with error handling and similarity score threshold
+def wordnet_vector_search(query, top_n=5, similarity_threshold=0.8):
+    expanded_query = get_wordnet_synonyms(query)
+    
+    if isinstance(expanded_query, dict) and "error" in expanded_query:
+        return expanded_query  # Return error if query expansion failed
+
+    print(f"Expanded query: {expanded_query}", file=sys.stderr)
+
+    query_embedding = get_average_embedding(expanded_query, model)
     if query_embedding is None:
-        print("Failed to embed query", file=sys.stderr)
-        return []
+        return {"error": "No valid words found in the query to compute embeddings."}
 
-    try:
-        # Embed only the first 10 verses for debugging
-        embeddings = [embed_text(text) for text in df['EnglishTranslation']]
-        print("Embeddings generated, calculating cosine similarities...", file=sys.stderr)
+    results = []
 
-        valid_embeddings = [emb for emb in embeddings if emb is not None]
-        if len(valid_embeddings) == 0:
-            print("No valid embeddings found.", file=sys.stderr)
-            return []
+    for index, row in df.iterrows():
+        verse_words = set(row['tokenized'])
+        verse_embedding = get_average_embedding(verse_words, model)
 
-        cosine_similarities = [cosine_similarity(query_embedding, emb).flatten()[0] for emb in valid_embeddings]
-        print("Cosine similarities calculated.", file=sys.stderr)
+        if verse_embedding is not None:
+            similarity = cosine_similarity([query_embedding], [verse_embedding])[0][0]
 
-        # Return top results
-        top_sim_indices = sorted(range(len(cosine_similarities)), key=lambda i: cosine_similarities[i], reverse=True)[:3]
-        results = []
-        for idx in top_sim_indices:
-            results.append({
-                "SrNo": int(df['SrNo'].iloc[idx]),
-                "Translation": df['EnglishTranslation'].iloc[idx],
-                "Original Arabic Text": df['OrignalArabicText'].iloc[idx],
-                "Similarity Score": float(cosine_similarities[idx])
-            })
-        return results
-    except Exception as e:
-        print(f"Error during search: {str(e)}", file=sys.stderr)
-        return []
+            if similarity > similarity_threshold:
+                results.append({
+                    "SrNo": row['SrNo'],
+                    "Translation": row['EnglishTranslation'],
+                    "Original Arabic Text": row['OrignalArabicText'],
+                    "OriginalEnglishTranslation": row['OriginalEnglishTranslation'],
+                    "Similarity Score": float(similarity)  # Convert to a standard Python float
+                })
 
+    if not results:
+        return {"error": "No results found matching the similarity threshold."}
+
+    results = sorted(results, key=lambda x: x['Similarity Score'], reverse=True)
+    return results[:top_n]
+
+# Step 8: Main execution for running via command line or API
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        query = sys.argv[1]
-        results = search(query)
-        print(json.dumps(results))  # Ensure only JSON is printed to stdout
+        query = sys.argv[1]  # Get the query from the command line arguments
+        try:
+            top_n = 5
+            similarity_threshold = 0.8
+            results = wordnet_vector_search(query, top_n=top_n, similarity_threshold=similarity_threshold)
+            print(json.dumps(results))
+        except Exception as e:
+            print(json.dumps({"error": str(e)}))
     else:
-        print("Please provide a search query.", file=sys.stderr)
+        print(json.dumps({"error": "Please provide a search query."}))

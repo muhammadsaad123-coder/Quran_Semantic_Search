@@ -17,10 +17,8 @@ function Home() {
 
   const handleSearch = async () => {
     setLoading(true); // Show loading spinner
-  
-    // Set the search query immediately when the search starts
     setSearchQuery(query); // Update searchQuery with the current input before the search
-  
+
     try {
       console.log("Sending search request to backend...");
       const response = await axios.post("http://localhost:4000/search", {
@@ -28,9 +26,9 @@ function Home() {
         searchType,
         ngramType: searchType === "keyword" ? ngramType : "", // Send ngramType only for keyword search
       });
-  
+
       console.log("Search response received:", response.data);
-  
+
       if (response.data.error) {
         setError(response.data.error); // Show backend error
         setResults([]); // Clear previous results
@@ -41,15 +39,12 @@ function Home() {
       setQuery(""); // Clear the search bar
     } catch (error) {
       console.error("Error fetching search results:", error);
-      setError(
-        "Failed to retrieve search results. Please check your backend server or query input."
-      );
+      setError("Failed to retrieve search results. Please check your backend server or query input.");
       setResults([]); // Clear previous results
     } finally {
       setLoading(false); // Hide loading spinner
     }
   };
-  
 
   // Handle search type change (keyword/semantic)
   const handleSearchTypeChange = (e) => {
@@ -74,12 +69,7 @@ function Home() {
 
   // Helper function to highlight search term(s) in the text
   const highlightText = (text, query) => {
-    if (
-      !text ||
-      !query ||
-      typeof text !== "string" ||
-      typeof query !== "string"
-    ) {
+    if (!text || !query || typeof text !== "string" || typeof query !== "string") {
       return text; // Return the original text if not a valid string
     }
 
@@ -121,11 +111,7 @@ function Home() {
       </nav>
 
       <div className="search-section">
-        <img
-          src={searchLogo}
-          alt="Quran Semantic Search Logo"
-          className="logo2"
-        />
+        <img src={searchLogo} alt="Quran Semantic Search Logo" className="logo2" />
 
         <input
           type="text"
@@ -136,21 +122,13 @@ function Home() {
           onKeyPress={handleKeyPress}
         />
 
-        <select
-          className="dropdown"
-          onChange={handleSearchTypeChange}
-          value={searchType}
-        >
+        <select className="dropdown" onChange={handleSearchTypeChange} value={searchType}>
           <option value="keyword">Keyword</option>
           <option value="semantic">Semantic Search</option>
         </select>
 
         {showNgramDropdown && (
-          <select
-            className="dropdown"
-            onChange={(e) => setNgramType(e.target.value)}
-            value={ngramType}
-          >
+          <select className="dropdown" onChange={(e) => setNgramType(e.target.value)} value={ngramType}>
             <option value="unigram">Unigram</option>
             <option value="bigram">Bigram</option>
           </select>
@@ -176,42 +154,52 @@ function Home() {
         {loading && (
           <div>
             <div className="loading-spinner"></div>
-            <div className="loading-text">Loading...</div>
+            <div className="loading-text"> <strong>Searching...</strong></div>
           </div>
         )}
       </div>
+
       <div className="results-section">
-  {error ? (
-    <p className="error-message">{error}</p>
-  ) : (
-    !loading &&
-    searchQuery &&
-    results.length === 0 && (
-      <p className="no-results-message">
-        No results found for "{searchQuery}".
+        {error ? (
+          <p className="error-message">{error}</p>
+        ) : (
+          !loading &&
+          searchQuery &&
+          results.length === 0 && (
+            <p className="no-results-message">
+              No results found for "{searchQuery}".
+            </p>
+          )
+        )}
+        {/* Show results if there are any */}
+        {results.length > 0 &&
+          results.map((result, index) => (
+            <div key={index}>
+              <h3>Most similar verse {index + 1}</h3>
+              <p>
+        <strong>Verse No:</strong> {result.SrNo}
       </p>
-    )
-  )}
-  {/* Show results if there are any */}
-  {results.length > 0 &&
-    results.map((result, index) => (
-      <div key={index}>
-        <h3>Most similar verse {index + 1}</h3>
-        <p>Verse No: {result.SrNo}</p>
-        <p>
-          Translation:{" "}
-          {highlightText(result.Translation || "", searchQuery)}
-        </p>
-        <p>
-          Original Arabic Text:{" "}
-          {highlightText(result["Original Arabic Text"] || "", searchQuery)}
-        </p>
-        <p>Similarity Score: {result["Similarity Score"]}</p>
+      <p>
+        <strong>Translation:</strong>{" "}
+        {searchType === "keyword" && (ngramType === "unigram" || ngramType === "bigram")
+          ? highlightText(result.Translation || "", searchQuery)
+          : result.Translation}
+      </p>
+      <p>
+        <strong>Original Arabic Text:</strong>{" "}
+        {searchType === "keyword" && (ngramType === "unigram" || ngramType === "bigram")
+          ? highlightText(result["Original Arabic Text"] || "", searchQuery)
+          : result["Original Arabic Text"]}
+      </p>
+      <p>
+        <strong>Original English Translation:</strong> {result.OriginalEnglishTranslation}
+      </p>
+      <p>
+        <strong>Similarity Score:</strong> {result["Similarity Score"]}
+      </p>
+            </div>
+          ))}
       </div>
-    ))}
-</div>
-
-
     </div>
   );
 }
