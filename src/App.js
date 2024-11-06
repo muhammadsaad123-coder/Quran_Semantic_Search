@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Splash from "./Splash";
-import Home from "./Home";
-import LoginPage from './LoginPage';
-import SignupPage from "./SignupPage";
-import About from "./About";
+import Splash from "./Pages/Splash";
+import Home from "./Pages/Home";
+import LoginPage from './Pages/LoginPage';
+import SignupPage from "./Pages/SignupPage";
+import About from "./Pages/About";
 
 function App() {
   return (

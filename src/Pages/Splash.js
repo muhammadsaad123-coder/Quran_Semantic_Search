@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Splash.css';
-import searchLogo from './searchlogo.png';  // Ensure the path to the image is correct
+import '../Styles/Splash.css';
+import searchLogo from '../Assets/searchlogo.png';  // Ensure the path to the image is correct
 
 function Splash() {
   let navigate = useNavigate();

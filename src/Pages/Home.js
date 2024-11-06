@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
-import "./Home.css";
-import background from "./background2.png";
-import searchLogo from "./searchlogo.png";
+import "../Styles/Home.css";
+import background from "../Assets/background2.png";
+import searchLogo from "../Assets/searchlogo.png";
 
 function Home() {
   const [query, setQuery] = useState("");

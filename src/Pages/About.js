@@ -1,7 +1,7 @@
 // src/components/About.js
 
 import React from 'react';
-import './About.css'; // Importing CSS for styling
+import '../Styles/About.css'; // Importing CSS for styling
 import { Link } from 'react-router-dom';
 
 const About = () => {

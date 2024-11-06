@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  background-image: url('background2.png'); /* Update the path as needed */
+  background-image: url('/src/Assets/background2.png'); /* Update the path as needed */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

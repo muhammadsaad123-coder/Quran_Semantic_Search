@@ -33,7 +33,7 @@ model = Word2Vec(sentences=df['tokenized'], vector_size=100, window=5, min_count
 print("Word2Vec model trained.", file=sys.stderr)
 
 # Step 5: Stopwords list (add more as needed)
-stopwords = set(["of", "and", "the", "in", "on", "with", "a", "an", "is", "it", "for"])
+stopwords = set(["of", "and", "the", "in", "on", "with", "a", "an", "is", "it", "for" ,"from"])
 
 # Function to expand the query using WordNet synonyms
 def get_wordnet_synonyms(query, max_synonyms=5):
