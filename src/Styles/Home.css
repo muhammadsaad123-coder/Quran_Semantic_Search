@@ -115,7 +115,7 @@
 .dropdown {
   margin: 10px;
   padding: 10px;
-  width: 150px;
+  width: 165px;
   background: white; /* Background to ensure readability */
   color: black; /* Text color */
 }
@@ -155,9 +155,11 @@
   margin-bottom: 15px;
   margin-left: 18%;
   padding: 20px;
-  background-color: #fafafa; /* Slightly darker background for each result */
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  background-color: #fafafa;
+  /* background-color: #aaca85; */
+  /* border: 1px solid #ddd; */
+  border: 3px solid #06ec06;
+  border-radius: 30px;
   
 }
 

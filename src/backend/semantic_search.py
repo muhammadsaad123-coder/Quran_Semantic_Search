@@ -94,6 +94,7 @@ def wordnet_vector_search(query, top_n=5, similarity_threshold=0.8):
             if similarity > similarity_threshold:
                 results.append({
                     "SrNo": row['SrNo'],
+                    "SurahNameArabic": row['SurahNameArabic'],
                     "Translation": row['EnglishTranslation'],
                     "Original Arabic Text": row['OrignalArabicText'],
                     "OriginalEnglishTranslation": row['OriginalEnglishTranslation'],
@@ -111,7 +112,7 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         query = sys.argv[1]  # Get the query from the command line arguments
         try:
-            top_n = 5
+            top_n = 8
             similarity_threshold = 0.8
             results = wordnet_vector_search(query, top_n=top_n, similarity_threshold=similarity_threshold)
             print(json.dumps(results))

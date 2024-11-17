@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import "../Styles/Home.css";
-import background from "../Assets/background2.png";
+import background from "../Assets/greenbg.jpg";
 import searchLogo from "../Assets/searchlogo.png";
 
 function Home() {
@@ -123,14 +123,14 @@ function Home() {
         />
 
         <select className="dropdown" onChange={handleSearchTypeChange} value={searchType}>
-          <option value="keyword">Keyword</option>
-          <option value="semantic">Semantic Search</option>
+          <option value="keyword">Keyword Search</option>
+          <option value="semantic">Contextual Search</option>
         </select>
 
         {showNgramDropdown && (
           <select className="dropdown" onChange={(e) => setNgramType(e.target.value)} value={ngramType}>
-            <option value="unigram">Unigram</option>
-            <option value="bigram">Bigram</option>
+            <option value="unigram">Single Word Search</option>
+            <option value="bigram">Word Pair Search</option>
           </select>
         )}
 
@@ -180,7 +180,7 @@ function Home() {
         <strong>Verse No:</strong> {result.SrNo}
       </p>
       <p>
-        <strong>Translation:</strong>{" "}
+        <strong>Preprocessed Translation:</strong>{" "}
         {searchType === "keyword" && (ngramType === "unigram" || ngramType === "bigram")
           ? highlightText(result.Translation || "", searchQuery)
           : result.Translation}
@@ -191,12 +191,19 @@ function Home() {
           ? highlightText(result["Original Arabic Text"] || "", searchQuery)
           : result["Original Arabic Text"]}
       </p>
+
+      <p>
+        <strong>SurahNameArabic:</strong>{" "}
+        {searchType === "keyword" && (ngramType === "unigram" || ngramType === "bigram")
+          ? highlightText(result["SurahNameArabic"] || "", searchQuery)
+          : result["SurahNameArabic"]}
+      </p>
       <p>
         <strong>Original English Translation:</strong> {result.OriginalEnglishTranslation}
       </p>
       <p>
-        <strong>Similarity Score:</strong> {result["Similarity Score"]}
-      </p>
+  <strong>Relevance Score:</strong> {result["Similarity Score"] !== undefined ? (result["Similarity Score"] * 100).toFixed(2) + "%" : "N/A"}
+</p>
             </div>
           ))}
       </div>

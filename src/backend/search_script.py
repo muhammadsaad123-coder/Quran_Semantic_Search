@@ -46,8 +46,8 @@ def search(query, ngram_type='unigram'):
                     "SrNo": int(quran_data['SrNo'].iloc[idx]),
                     "Translation": quran_data['EnglishTranslation'].iloc[idx],
                     "Original Arabic Text": quran_data['OrignalArabicText'].iloc[idx],
+                    "SurahNameArabic": quran_data['SurahNameArabic'].iloc[idx],
                     "OriginalEnglishTranslation": quran_data['OriginalEnglishTranslation'].iloc[idx],
-
                     "Similarity Score": float(cosine_similarities[idx])
                 })
             except ValueError:
