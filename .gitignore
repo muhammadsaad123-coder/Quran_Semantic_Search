@@ -8,7 +8,7 @@ MongoDB/node_modules/
 MongoDB/*.log
 
 # Build files
-build/
+# build/
 dist/
 MongoDB/build/
 MongoDB/dist/
