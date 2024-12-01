@@ -201,9 +201,12 @@ function Home() {
       <p>
         <strong>Original English Translation:</strong> {result.OriginalEnglishTranslation}
       </p>
-      <p>
-  <strong>Relevance Score:</strong> {result["Similarity Score"] !== undefined ? (result["Similarity Score"] * 100).toFixed(2) + "%" : "N/A"}
-</p>
+      {searchType === "keyword" && (ngramType === "unigram" || ngramType === "bigram") && (
+  <p>
+    <strong>Relevance Score:</strong> {result["Similarity Score"] !== undefined ? (result["Similarity Score"] * 100).toFixed(2) + "%" : "N/A"}
+  </p>
+)}
+
             </div>
           ))}
       </div>

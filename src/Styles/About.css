@@ -1,82 +1,114 @@
-/* src/components/About.css */
+/* About.css */
+
+/* Container for the entire About page */
 .about-container {
-    max-width: 1500px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .section h2 {
-    color: #0056b3;
-    margin-bottom: 10px;
-  }
-  
-  .section p {
-    font-size: 16px;
-    line-height: 1.5;
-  }
-  
-  .section strong {
-    color: #343a40; /* Dark grey for emphasis */
-  }
-  
-  .section ul {
-    list-style-type: none;
-    padding-left: 20px;
-  }
-  
-  .section li {
-    background-color: #ffffff;
-    margin-bottom: 10px;
-    padding: 10px;
-    border-left: 5px solid #007bff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-
-  /* src/components/Comparison.css */
-.comparison-container {
-    max-width: 100%;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: left;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-  }
-  
-  th, td {
-    border: 1px solid #dee2e6;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  th {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  tbody tr:nth-child(odd) {
-    background-color: #f8f9fa;
-  }
-
-  .close-button {
-  position: absolute;
-  top: 10px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: #aaa; /* Light gray for the button */
-  font-size: 24px; /* Larger font size for visibility */
-  cursor: pointer;
-  text-decoration: none; /* Remove underline from link */
+  font-family: Arial, sans-serif;
+  margin: 20px auto;
+  max-width: 1500px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  line-height: 1.6;
 }
-  
-  
+
+/* Close button to go back to the Home page */
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  text-decoration: none;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.close-button:hover {
+  background-color: #ff4c4c;
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Section headers */
+.section h2 {
+  margin-top: 20px;
+  color: #333;
+  font-size: 24px;
+  border-bottom: 2px solid #007BFF;
+  padding-bottom: 5px;
+}
+
+/* Paragraphs for explanation */
+.section p {
+  margin: 10px 0;
+  color: #555;
+}
+
+/* Example query and output */
+.section p strong {
+  color: #007BFF;
+}
+
+/* List of queries */
+.section ul {
+  list-style-type: none;
+  margin: 10px 0;
+  padding: 0;
+}
+
+.section ul li {
+  background-color: #e7f3ff;
+  color: #007BFF;
+  margin: 5px 0;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 1px solid #bcd4f7;
+  font-size: 14px;
+  transition: transform 0.2s, background-color 0.3s;
+}
+
+.section ul li:hover {
+  background-color: #007BFF;
+  color: #fff;
+  transform: translateX(5px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .about-container {
+    padding: 15px;
+    margin: 10px;
+  }
+
+  .section h2 {
+    font-size: 20px;
+  }
+
+  .section ul li {
+    font-size: 12px;
+  }
+}
+
+.copy-button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 0.9em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.copy-button:hover {
+  background-color: #0056b3;
+}
+
