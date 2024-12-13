@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../Styles/About.css'; // Importing CSS for styling
 import { Link } from 'react-router-dom';
 
 const About = () => {
+  const [copyMessage, setCopyMessage] = useState('');
+
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
-    alert(`Copied to clipboard: ${text}`);
+
+    // Set the message and display it
+    setCopyMessage(`Copied to clipboard: ${text}`);
+
+    // Hide the message after 5 seconds (increased time)
+    setTimeout(() => {
+      setCopyMessage('');
+    }, 15000);  // Increased the timeout to 5 seconds
   };
 
   return (
     <div className="about-container">
       <Link to="/home" className="close-button">&times;</Link>
       <h1>About Our Search Functionalities</h1>
+
+      {/* Display the copied message */}
+      {copyMessage && (
+        <div className="copy-message">
+          {copyMessage}
+        </div>
+      )}
 
       {/* Section: Keyword Search by Single Word */}
       <div className="section">
@@ -51,7 +67,7 @@ const About = () => {
         <p><strong>Output:</strong> Surah Al-Fatihah, Verse 4: "Master of the Day of Judgment."</p>
         <p><strong>Queries:</strong></p>
         <ul>
-          {[
+          {[ 
             'Day of Judgment',
             'Righteous deeds',
             'Justice of God',

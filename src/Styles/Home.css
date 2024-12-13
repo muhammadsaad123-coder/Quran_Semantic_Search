@@ -151,15 +151,16 @@
 
 /* Styling for each result item */
 .results-section > div {
-  width: 60%;
+  width: 73%;
   margin-bottom: 15px;
-  margin-left: 18%;
+  margin-left: 12%;
   padding: 20px;
   background-color: #fafafa;
   /* background-color: #aaca85; */
   /* border: 1px solid #ddd; */
-  border: 3px solid #06ec06;
-  border-radius: 30px;
+  border: 5px solid #9cd79d;
+  border-radius: 40px;
+  line-height: 1.8;
   
 }
 
@@ -167,15 +168,20 @@
 .results-section h3 {
   margin: 0;
   margin-bottom: 10px;
-  font-size: 18px;
-  color: #333;
+  font-size: 20px;
+  color: #555;
 }
 
 /* Styling for paragraph text in results */
 .results-section p {
   margin: 5px 0;
-  font-size: 16px;
+  font-size: 20px;
   color: #555;
+  word-wrap: break-word; /* Break long words to avoid overflow */
+  overflow-wrap: break-word; /* Ensures the text doesn't overflow */
+  white-space: normal; /* Allow text to wrap normally */
+  max-width: 100%; /* Ensure the paragraph doesn't exceed the container width */
+  box-sizing: border-box; /* Include padding and borders in element's total width and height */
 }
 /* Spinner (Loader) */
 .loading-spinner {

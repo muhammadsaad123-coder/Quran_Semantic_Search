@@ -32,7 +32,7 @@ def search(query, ngram_type='unigram'):
     
     # Set a threshold for valid similarity scores
     threshold = 0.1
-    top_sim_indices = cosine_similarities.argsort()[-80:][::-1]  # Top 3 results in descending order
+    top_sim_indices = cosine_similarities.argsort()[-30:][::-1]  # Top 3 results in descending order
     
     # Check if all results have very low similarity scores
     if all(cosine_similarities[idx] < threshold for idx in top_sim_indices):
